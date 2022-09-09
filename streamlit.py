@@ -1,0 +1,61 @@
+import pandas as pd
+import streamlit as st
+from catboost import CatBoostRegressor
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
+
+
+@st.cache(allow_output_mutation=True)
+def load_model():
+    model = CatBoostRegressor()
+    model.load_model('test_model', format='cbm')
+    return model
+
+# @st.cache
+# def convert_df(df):
+#    return df.to_excel(index=False)
+
+@st.cache
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'})
+    worksheet.set_column('A:A', None, format1)
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+
+# model = CatBoost()
+# model.load_model('test_model', format='cbm')
+
+
+def load_data():
+    uploaded_file = st.file_uploader(label='Выберите таблицу')
+    if uploaded_file is not None:
+        data = pd.read_excel(uploaded_file)
+        return data
+    else:
+        return None
+
+
+model = load_model()
+
+st.title('Прогнозирование выживаемости клеток')
+table = load_data()
+result = st.button('Построить прогноз')
+if result:
+    preds = model.predict(table)
+    table['viability'] = preds
+    excel = to_excel(table)
+
+    st.write('**Результаты скоринга**')
+
+    st.download_button(
+        "Press to Download",
+        data=excel,
+        file_name= 'data_with_preds.xlsx',
+        key='download-xlsx'
+    )
