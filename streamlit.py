@@ -2,8 +2,6 @@ import pandas as pd
 import streamlit as st
 from catboost import CatBoostRegressor
 from io import BytesIO
-from pyxlsb import open_workbook as open_xlsb
-
 
 @st.cache(allow_output_mutation=True)
 def load_model():
