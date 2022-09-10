@@ -60,3 +60,18 @@ if result:
         file_name= 'data_with_preds.xlsx',
         key='download-xlsx'
     )
+st.markdown(
+    """
+    ### Используемые признаки:   
+    * material_type  
+    * concentration  
+    * time  
+    * surface_charge  
+    * diameter  
+    * ionic_radius  
+    * electronegativity  
+    * no_of_cells  
+    ### Целевая  
+    * viability  
+    """
+    )
