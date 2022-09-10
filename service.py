@@ -26,7 +26,7 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
-@st.cache
+
 def load_data():
     uploaded_file = st.file_uploader(label='Выберите таблицу')
     if uploaded_file is not None:
