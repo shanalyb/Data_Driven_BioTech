@@ -45,6 +45,21 @@ def load_data():
 model = load_model()
 
 st.title('Прогнозирование выживаемости клеток')
+st.markdown(
+    """
+    ### Используемые признаки:   
+    * material_type - химическая формула  
+    * concentration - финальная концентрация частиц в растворе с клетками  
+    * time - время инкубации материала с клетками  
+    * surface_charge - дзета-потенциал или заряд поверхности  
+    * diameter - гидродинамический диаметр частиц - диаметр частиц в растворе  
+    * ionic_radius - ионный радиус элемента (исходя из степени окисления; если смесь степеней - среднее значение)  
+    * electronegativity - электроотрицательность по Полингу  
+    * no_of_cells - количество клеток   
+    ### Целевая  
+    * viability - выживаемость клеток  
+    """
+    )
 table = load_data()
 result = st.button('Построить прогноз')
 if result:
@@ -59,19 +74,4 @@ if result:
         data=excel,
         file_name= 'data_with_preds.xlsx',
         key='download-xlsx'
-    )
-st.markdown(
-    """
-    ### Используемые признаки:   
-    * material_type  
-    * concentration  
-    * time  
-    * surface_charge  
-    * diameter  
-    * ionic_radius  
-    * electronegativity  
-    * no_of_cells  
-    ### Целевая  
-    * viability  
-    """
     )
