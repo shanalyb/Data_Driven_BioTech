@@ -1,5 +1,5 @@
 import pandas as pd
-import streamlit as st
+import service as st
 from catboost import CatBoostRegressor
 from io import BytesIO
 
@@ -34,6 +34,17 @@ def load_data():
     uploaded_file = st.file_uploader(label='Выберите таблицу')
     if uploaded_file is not None:
         data = pd.read_excel(uploaded_file)
+        cat_features = [
+            'particle_id',
+            'coat',
+            'cell_organ',
+            'material_type',
+            'biochemical_metrics',
+            'test_indicator'
+            ]
+        for col in cat_features:
+            data[col] = data[col].astype(str)
+            data[col] = data[col].fillna('nan')
         return data
     else:
         return None
