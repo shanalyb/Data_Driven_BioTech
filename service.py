@@ -32,12 +32,7 @@ def load_data():
     if uploaded_file is not None:
         data = pd.read_excel(uploaded_file)
         cat_features = [
-            'particle_id',
-            'coat',
-            'cell_organ',
-            'material_type',
-            'biochemical_metrics',
-            'test_indicator'
+            'material_type'
             ]
         for col in cat_features:
             data[col] = data[col].astype(str)
