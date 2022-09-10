@@ -1,5 +1,5 @@
 import pandas as pd
-import service as st
+import streamlit as st
 from catboost import CatBoostRegressor
 from io import BytesIO
 
